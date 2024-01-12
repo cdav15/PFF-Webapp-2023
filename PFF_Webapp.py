@@ -22,7 +22,7 @@ import io
 @st.cache_data()
 
 def get_data():
-    df = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Pass.csv?token=GHSAT0AAAAAACMXXWBZGM3TWWPOD3QOYI6KZNASTQQ')
+    df = pd.read_csv('https://github.com/cdav15/Portfolio/blob/main/PFF_Pass.csv')
     df = df[df['attempts'] >= 100]
     df.rename(columns={df.columns[0]: 'Player'}, inplace=True)
     return df.set_index("Player")
