@@ -19,7 +19,7 @@ import math
 import sys
 import io
 
-
+@st.cache_data()
 
 def get_data():
     df = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Pass.csv?token=GHSAT0AAAAAACMXXWBZGM3TWWPOD3QOYI6KZNASTQQ')
