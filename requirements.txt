@@ -2,5 +2,5 @@ matplotlib
 highlight_text
 scipy
 mplsoccer
-urllib.request
+streamlit
 
