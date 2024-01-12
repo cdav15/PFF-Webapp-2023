@@ -1,7 +1,5 @@
 matplotlib
 highlight_text
 scipy
-io
 mplsoccer
-numpy
-pandas
+
