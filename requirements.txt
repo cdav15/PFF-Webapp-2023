@@ -1,7 +1,6 @@
 matplotlib
 highlight_text
 scipy
-math
 sys
 io
 mplsoccer
