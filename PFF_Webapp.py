@@ -214,7 +214,7 @@ if selected_tab == 'Home Screen':
              "Below will be an example radar chart. ")
     
     
-    st.image('https://imgur.com/a/VGm1DJz')
+    st.image('https://raw.githubusercontent.com/cdav15/Portfolio/main/J_Allen.jpg')
     st.write('Using the above graph, we can see that Josh Allen excels in the following categories: Pass Grade, Offense Grade, Depth of Target, Completions, etc. '
              'Using the same graph, we can see that Josh Allen struggles with: Interceptions, Turnover Worthy Plays, and he has a high receiver drop rate compared to other QBs. ')
     
