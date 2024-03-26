@@ -207,16 +207,16 @@ if selected_tab == 'Home Screen':
     st.image('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Jz4nqpr7AJFcwQCdD_FNwYV1vKhdfNhNEYg6w_l0yA&s')
     st.subheader('Developed by Chandler Davis: Data by Pro Football Focus')
     
-    st.write("This webapp was developed to help coaches and fans understand the strengths and weaknesses of NFL Players." 
-             "This webapp takes data provided by Pro Football Focus and turns key statistics into percentile rankings."
-             "For each category (Passing, rushing, receiving, etc.) there are minumum snap count requirements to preserve the integrity of the percentile rankings."
-             "The percentile rankings are then charted on a radar chart to easily visualize where a player is thriving and struggling compared to their position averages."
-             "Below will be an example radar chart.")
+    st.write("This webapp was developed to help coaches and fans understand the strengths and weaknesses of NFL Players. " 
+             "This webapp takes data provided by Pro Football Focus and turns key statistics into percentile rankings. "
+             "For each category (Passing, rushing, receiving, etc.) there are minumum snap count requirements to preserve the integrity of the percentile rankings. "
+             "The percentile rankings are then charted on a radar chart to easily visualize where a player is thriving and struggling compared to their position averages. "
+             "Below will be an example radar chart. ")
     
     
     st.image('https://github.com/cdav15/Portfolio/blob/main/J_Allen.jpg', output_format='JPEG')
     st.write('Using the above graph, we can see that Josh Allen excels in the following categories: Pass Grade, Offense Grade, Depth of Target, Completions, etc. '
-             'Using the same graph, we can see that Josh Allen struggles with: Interceptions, Turnover Worthy Plays, and he has a high receiver drop rate compared to other QBs')
+             'Using the same graph, we can see that Josh Allen struggles with: Interceptions, Turnover Worthy Plays, and he has a high receiver drop rate compared to other QBs. ')
     
     st.write('Use the sidepane on the left to select what position group you would like to view.')
     
