@@ -78,7 +78,7 @@ def single_graph(params, player, values):
     # add subtitle
     fig.text(
         0.515, 0.942,
-        "Percentile Ranks",
+        "Percentile Ranks - 2023 Season",
         size=15,
         ha="center",  color="#000000"
     )
@@ -162,7 +162,7 @@ def comparison_graph(params, player1, values1, player2, values2):
 
     fig3.text(
         0.515, 0.942,
-        "Player Percentile Ranking Comparison",
+        "Player Percentile Ranking Comparison - 2023 Season",
         size=15,
         ha="center", color="#000000"
     )
@@ -196,7 +196,7 @@ def comparison_graph(params, player1, values1, player2, values2):
     
    
 
-tabs = ['Home Screen','Passing']
+tabs = ['Home Screen','Passing','Rushing']
 
 st.sidebar.title('Menu')
 selected_tab = st.sidebar.radio('Select Page', tabs)
@@ -329,6 +329,136 @@ elif selected_tab == 'Passing':
         df2['Receiver Drops'] *= -1
         df2['Sack %'] *= -1
         df2['Total Sacks'] *= -1
+
+
+        st.write("# Comparison Chart")
+        st.write('Choose two players in the drop down boxes below to compare their percentile rankings in your selected stat categories')
+        
+        players = st.selectbox(
+            "## Choose a player:", list(df.index), index=16)
+        
+        players1 = st.selectbox(
+            "## Choose a player to compare to:", list(df.index), index=3)
+        
+        datas_1 = df2.loc[[players, players1]]
+        
+        st.write(datas_1)
+        
+        
+        p2 = players
+        p3 = players1
+        
+        player2 = df3.loc[[p2]].reset_index()
+        player2 = list(player2.loc[0])    
+        player2 = player2[1:]
+         
+        player3 = df3.loc[[p3]].reset_index()
+        player3 = list(player3.loc[0])
+        player3 = player3[1:]
+        
+        values2 = []
+        for x in range(len(params)):
+            values2.append(math.floor(stats.percentileofscore(df3[params[x]],player2[x])))
+         
+        values3 = []
+        for x in range(len(params)):
+            values3.append(math.floor(stats.percentileofscore(df3[params[x]],player3[x])))
+
+
+        comparison_graph(params, players, values2, players1, values3)
+
+### Rushing
+
+elif selected_tab == 'Rushing':
+    st.title('PFF Rushing Stats and Grades Percentile Rankings')
+    
+    df = rushing_data()
+    
+    
+    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Running Back.")
+    st.write("The data is filtered to Rushers who have attempted 25 rushes or more during the 2023 Regular Season.")
+    st.write("                  ")
+    st.write('Original Data Provided Below')
+    st.dataframe(df)
+
+    
+
+    st.write("## RB Strengths and Weaknesses")
+    player_select = st.selectbox("Choose a player:", list(df.index))
+    
+    if not player_select:
+        st.error("Please Select a Player.")
+    else:
+        df2 = df.drop(['player_id', 'position', 'team_name', 'player_game_count', 
+                         'declined_penalties', 'grades_pass', 'franchise_id',
+                        'grades_offense_penalty','penalties', 'scrambles', 'grades_pass_route', 'elu_recv_mtf',
+                        'elu_rush_mtf', 'elu_yco', 'scrambles', 'scramble_yards'], axis=1)
+        
+        
+        df2.rename(columns={df2.columns[0]: 'Attempts',
+                             df2.columns[1]: 'Avoided Tackles',
+                             df2.columns[2]: 'Breakaway Attempts',
+                             df2.columns[3]: 'Breakaway Percent',
+                             df2.columns[4]: 'Breakaway Yards',
+                             df2.columns[5]: 'Designed Yards',
+                             df2.columns[6]: 'Drops', #
+                             df2.columns[7]: 'Elusive Rating',
+                             df2.columns[8]: 'Explosive Plays',
+                             df2.columns[9]: 'First Downs',
+                             df2.columns[10]: 'Fumbles', #
+                             df2.columns[11]: 'Gap Attempts',
+                             df2.columns[12]: 'Fumble Grade',
+                             df2.columns[13]: 'Offense Grade',
+                             df2.columns[14]: 'Pass Block Grade',
+                             df2.columns[15]: 'Run Grade',
+                             df2.columns[16]: 'Run Block Grade',
+                             df2.columns[17]: 'Longest Run',
+                             df2.columns[18]: 'Receiving Yards',
+                             df2.columns[19]: 'Receptions',
+                             df2.columns[20]: 'Routes Ran',
+                             df2.columns[21]: 'Run Plays',
+                             df2.columns[22]: 'Targets',
+                             df2.columns[23]: 'Total Touches',
+                             df2.columns[24]: 'Touchdowns',
+                             df2.columns[25]: 'Yards',
+                             df2.columns[26]: 'Yards After Contact',
+                             df2.columns[27]: 'Yards After Contact Per Attempt',
+                             df2.columns[28]: 'Yards Per Attempt',
+                             df2.columns[29]: 'Yards Per Route Run',
+                             df2.columns[30]: 'Zone Attempts'}, inplace=True)
+        data = df2.loc[[player_select]]
+        
+        st.write("###### Player Stats", data)
+
+        df2['Fumbles'] *= -1
+        df2['Drops'] *= -1
+
+        fields = st.multiselect(
+            "Choose stats to view in the graph:", list(df2.columns), ["Attempts", "Designed Yards",
+                                                           "Elusive Rating", "Explosive Plays", "Fumbles", "Pass Block Grade",
+                                                           "Run Grade", "Touchdowns", "Yards", "Yards After Contact Per Attempt"]
+  )
+        
+        params = fields
+                        
+        p1 = player_select
+        
+        df3 = df2[params]
+        player = df3.loc[[p1]].reset_index()
+        player = list(player.loc[0])    
+        player = player[1:]
+
+        values = []
+        for x in range(len(params)):
+            values.append(math.floor(stats.percentileofscore(df3[params[x]],player[x])))
+            
+
+        single_graph(params, p1, values)
+        
+#####################
+
+        df2['Fumbles'] *= -1
+        df2['Drops'] *= -1
 
 
         st.write("# Comparison Chart")
