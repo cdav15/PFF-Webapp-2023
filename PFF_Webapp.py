@@ -205,7 +205,7 @@ def comparison_graph(params, player1, values1, player2, values2):
     
    
 
-tabs = ['Home Screen','Passing','Rushing']
+tabs = ['Home Screen','Passing','Rushing', 'Wide Receivers', 'Tight Ends']
 
 st.sidebar.title('Menu')
 selected_tab = st.sidebar.radio('Select Page', tabs)
@@ -376,7 +376,7 @@ elif selected_tab == 'Passing':
 
         comparison_graph(params, players, values2, players1, values3)
 
-### Rushing
+### Running Backs
 
 elif selected_tab == 'Rushing':
     st.title('PFF Rushing Stats and Grades Percentile Rankings')
@@ -502,6 +502,282 @@ elif selected_tab == 'Rushing':
         values3 = []
         for x in range(len(params)):
             values3.append(math.floor(stats.percentileofscore(df3[params[x]],player3[x])))
+
+
+        comparison_graph(params, players, values2, players1, values3)
+
+#### Wide Receivers
+
+#######################
+
+elif selected_tab == 'Wide Receivers':
+    st.title('PFF Receiving Stats and Grades Percentile Rankings')
+    
+    df = receiving_data()
+    
+    
+    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Running Back.")
+    st.write("The data is filtered to Rushers who have attempted 25 rushes or more during the 2023 Regular Season.")
+    st.write("                  ")
+    st.write('Original Data Provided Below')
+    st.dataframe(df)
+
+    
+
+    st.write("## Pass Catcher Strengths and Weaknesses")
+    player_select = st.selectbox("Choose a player:", list(df.index))
+    
+    if not player_select:
+        st.error("Please Select a Player.")
+    else:
+        df3 = df.drop(['player_id', 'position', 'team_name', 'player_game_count', 
+                         'declined_penalties', 'pass_blocks', 'grades_pass_block', 'franchise_id', 'inline_rate', 'inline_snaps', 'pass_block_rate',
+                         'penalties'], axis=1)
+        
+        
+        df3.rename(columns={df3.columns[0]: 'Average Depth of Target',
+                             df3.columns[1]: 'Avoided Tackles',
+                             df3.columns[2]: 'Caught Percent',
+                             df3.columns[3]: 'Contested Catch Rate',
+                             df3.columns[4]: 'Contested Receptions',
+                             df3.columns[5]: 'Contested Targets',
+                             df3.columns[6]: 'Drop Rate', #
+                             df3.columns[7]: 'Drops', #
+                             df3.columns[8]: 'First Downs',
+                             df3.columns[9]: 'Fumbles', #
+                             df3.columns[10]: 'Drop Grade',
+                             df3.columns[11]: 'Fumble Grade',
+                             df3.columns[12]: 'Offense Grade',
+                             df3.columns[13]: 'Pass Route Grade',
+                             df3.columns[14]: 'Interceptions', #
+                             df3.columns[15]: 'Longest Reception',
+                             df3.columns[16]: 'Pass Plays',
+                             df3.columns[17]: 'Receptions',
+                             df3.columns[18]: 'Route Rate',
+                             df3.columns[19]: 'Routes',
+                             df3.columns[20]: 'Slot Rate',
+                             df3.columns[21]: 'Slot Snaps',
+                             df3.columns[22]: 'Targeted QB Rating',
+                             df3.columns[23]: 'Targets',
+                             df3.columns[24]: 'Touchdowns',
+                             df3.columns[25]: 'Wide Rate',
+                             df3.columns[26]: 'Wide Snaps',
+                             df3.columns[27]: 'Yards',
+                             df3.columns[28]: 'Yards After Catch',
+                             df3.columns[29]: 'Yards After Catch Per Reception',
+                             df3.columns[30]: 'Yards Per Reception',
+                             df3.columns[31]: 'Yards Per Route Ran'}, inplace=True)
+        
+        data = df3.loc[[player_select]]
+        
+        st.write("###### Player Stats", data)
+
+        df3['Drop Rate'] *= -1
+        df3['Drops'] *= -1
+        df3['Fumbles'] *= -1
+        df3['Interceptions'] *= -1
+
+        fields = st.multiselect(
+            "Choose stats to view in the graph:", list(df3.columns), ["Caught Percent", "Contested Catch Rate",
+                                                           "Drops", "Pass Route Grade", "Receptions", "Targeted QB Rating",
+                                                           "Targets", "Touchdowns", "Yards Per Reception", "Yards Per Route Ran"]
+  )
+        
+        params = fields
+                        
+        p1 = player_select
+        
+        df4 = df3[params]
+        player = df4.loc[[p1]].reset_index()
+        player = list(player.loc[0])    
+        player = player[1:]
+
+        values = []
+        for x in range(len(params)):
+            values.append(math.floor(stats.percentileofscore(df4[params[x]],player[x])))
+            
+
+        single_graph(params, p1, values)
+        
+#####################
+
+        df3['Drop Rate'] *= -1
+        df3['Drops'] *= -1
+        df3['Fumbles'] *= -1
+        df3['Interceptions'] *= -1
+
+
+        st.write("# Comparison Chart")
+        st.write('Choose two players in the drop down boxes below to compare their percentile rankings in your selected stat categories')
+        
+        players = st.selectbox(
+            "## Choose a player:", list(df.index), index=16)
+        
+        players1 = st.selectbox(
+            "## Choose a player to compare to:", list(df.index), index=3)
+        
+        datas_1 = df3.loc[[players, players1]]
+        
+        st.write(datas_1)
+        
+        
+        p2 = players
+        p3 = players1
+        
+        player2 = df4.loc[[p2]].reset_index()
+        player2 = list(player2.loc[0])    
+        player2 = player2[1:]
+         
+        player3 = df4.loc[[p3]].reset_index()
+        player3 = list(player3.loc[0])
+        player3 = player3[1:]
+        
+        values2 = []
+        for x in range(len(params)):
+            values2.append(math.floor(stats.percentileofscore(df4[params[x]],player2[x])))
+         
+        values3 = []
+        for x in range(len(params)):
+            values3.append(math.floor(stats.percentileofscore(df4[params[x]],player3[x])))
+
+
+        comparison_graph(params, players, values2, players1, values3)
+
+
+#### TE
+
+elif selected_tab == 'Tight Ends':
+    st.title('PFF Tight End Stats and Grades Percentile Rankings')
+    
+    df = te_data()
+    
+    
+    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Running Back.")
+    st.write("The data is filtered to Tight Ends who have been targeted 25 or more times during the 2023 Regular Season.")
+    st.write("                  ")
+    st.write('Original Data Provided Below')
+    st.dataframe(df)
+
+    
+
+    st.write("## Pass Catcher Strengths and Weaknesses")
+    player_select = st.selectbox("Choose a player:", list(df.index))
+    
+    if not player_select:
+        st.error("Please Select a Player.")
+    else:
+        df3 = df.drop(['player_id', 'position', 'team_name', 'player_game_count', 
+                         'declined_penalties', 'franchise_id', 'inline_rate', 'inline_snaps',
+                         'penalties'], axis=1)
+        
+        df3.columns[34]
+        df3.rename(columns={df3.columns[0]: 'Average Depth of Target',
+                             df3.columns[1]: 'Avoided Tackles',
+                             df3.columns[2]: 'Caught Percent',
+                             df3.columns[3]: 'Contested Catch Rate',
+                             df3.columns[4]: 'Contested Receptions',
+                             df3.columns[5]: 'Contested Targets',
+                             df3.columns[6]: 'Drop Rate', #
+                             df3.columns[7]: 'Drops', #
+                             df3.columns[8]: 'First Downs',
+                             df3.columns[9]: 'Fumbles', #
+                             df3.columns[10]: 'Drop Grade',
+                             df3.columns[11]: 'Fumble Grade',
+                             df3.columns[12]: 'Offense Grade',
+                             df3.columns[13]: 'Pass Block Grade',
+                             df3.columns[14]: 'Pass Route Grade',
+                             df3.columns[15]: 'Interceptions', #
+                             df3.columns[16]: 'Longest Reception',
+                             df3.columns[17]: 'Pass Block Rate',
+                             df3.columns[18]: 'Pass Blocks',
+                             df3.columns[19]: 'Pass Plays',
+                             df3.columns[20]: 'Receptions',
+                             df3.columns[21]: 'Route Rate',
+                             df3.columns[22]: 'Routes',
+                             df3.columns[23]: 'Slot Rate',
+                             df3.columns[24]: 'Slot Snaps',
+                             df3.columns[25]: 'Targeted QB Rating',
+                             df3.columns[26]: 'Targets',
+                             df3.columns[27]: 'Touchdowns',
+                             df3.columns[28]: 'Wide Rate',
+                             df3.columns[29]: 'Wide Snaps',
+                             df3.columns[30]: 'Yards',
+                             df3.columns[31]: 'Yards After Catch',
+                             df3.columns[32]: 'Yards After Catch Per Reception',
+                             df3.columns[33]: 'Yards Per Reception',
+                             df3.columns[34]: 'Yards Per Route Ran'}, inplace=True)
+        
+        data = df3.loc[[player_select]]
+        
+        st.write("###### Player Stats", data)
+
+        df3['Drop Rate'] *= -1
+        df3['Drops'] *= -1
+        df3['Fumbles'] *= -1
+        df3['Interceptions'] *= -1
+
+        fields = st.multiselect(
+            "Choose stats to view in the graph:", list(df3.columns), ["Caught Percent", "Contested Catch Rate",
+                                                           "Drops", "Pass Route Grade", "Receptions", "Targeted QB Rating",
+                                                           "Targets", "Touchdowns", "Yards Per Reception", "Yards Per Route Ran"]
+  )
+        
+        params = fields
+                        
+        p1 = player_select
+        
+        df4 = df3[params]
+        player = df4.loc[[p1]].reset_index()
+        player = list(player.loc[0])    
+        player = player[1:]
+
+        values = []
+        for x in range(len(params)):
+            values.append(math.floor(stats.percentileofscore(df4[params[x]],player[x])))
+            
+
+        single_graph(params, p1, values)
+        
+#####################
+
+        df3['Drop Rate'] *= -1
+        df3['Drops'] *= -1
+        df3['Fumbles'] *= -1
+        df3['Interceptions'] *= -1
+
+
+        st.write("# Comparison Chart")
+        st.write('Choose two players in the drop down boxes below to compare their percentile rankings in your selected stat categories')
+        
+        players = st.selectbox(
+            "## Choose a player:", list(df.index), index=16)
+        
+        players1 = st.selectbox(
+            "## Choose a player to compare to:", list(df.index), index=3)
+        
+        datas_1 = df3.loc[[players, players1]]
+        
+        st.write(datas_1)
+        
+        
+        p2 = players
+        p3 = players1
+        
+        player2 = df4.loc[[p2]].reset_index()
+        player2 = list(player2.loc[0])    
+        player2 = player2[1:]
+         
+        player3 = df4.loc[[p3]].reset_index()
+        player3 = list(player3.loc[0])
+        player3 = player3[1:]
+        
+        values2 = []
+        for x in range(len(params)):
+            values2.append(math.floor(stats.percentileofscore(df4[params[x]],player2[x])))
+         
+        values3 = []
+        for x in range(len(params)):
+            values3.append(math.floor(stats.percentileofscore(df4[params[x]],player3[x])))
 
 
         comparison_graph(params, players, values2, players1, values3)
