@@ -229,9 +229,9 @@ if selected_tab == 'Home Screen':
     
     st.write('Use the sidepane on the left to select what position group you would like to view.')
     
-    st.write('Note: Rushing and Receiving to be added at a later date.')
     
-    st.markdown('Link to GitHub: https://github.com/cdav15/Portfolio')
+    
+    st.markdown('Link to GitHub: https://github.com/cdav15/PFF-Webapp-2023')
 
 
 
