@@ -392,7 +392,7 @@ elif selected_tab == 'Rushing':
 
     
 
-    st.write("## RB Strengths and Weaknesses")
+    st.write("## Running Back Strengths and Weaknesses")
     player_select = st.selectbox("Choose a player:", list(df.index))
     
     if not player_select:
@@ -516,8 +516,8 @@ elif selected_tab == 'Wide Receivers':
     df = receiving_data()
     
     
-    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Running Back.")
-    st.write("The data is filtered to Rushers who have attempted 25 rushes or more during the 2023 Regular Season.")
+    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Wide Receiver.")
+    st.write("The data is filtered to Wide Receivers who 25 targets or more during the 2023 Regular Season.")
     st.write("                  ")
     st.write('Original Data Provided Below')
     st.dataframe(df)
@@ -652,7 +652,7 @@ elif selected_tab == 'Tight Ends':
     df = te_data()
     
     
-    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Running Back.")
+    st.write("I've created this web app to help fans, analysts, and coaches better understand the strengths and weaknesses of a NFL Tight End.")
     st.write("The data is filtered to Tight Ends who have been targeted 25 or more times during the 2023 Regular Season.")
     st.write("                  ")
     st.write('Original Data Provided Below')
