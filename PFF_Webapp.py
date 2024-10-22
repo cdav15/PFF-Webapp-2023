@@ -205,7 +205,7 @@ def comparison_graph(params, player1, values1, player2, values2):
     
    
 
-tabs = ['Home Screen','Quarter Backs','Running Backs', 'Wide Receivers', 'Tight Ends']
+tabs = ['Home Screen','Quarterbacks','Running Backs', 'Wide Receivers', 'Tight Ends']
 
 st.sidebar.title('Menu')
 selected_tab = st.sidebar.radio('Select Page', tabs)
@@ -236,7 +236,7 @@ if selected_tab == 'Home Screen':
 
 
 
-elif selected_tab == 'Quarter Backs':
+elif selected_tab == 'Quarterbacks':
     st.title('PFF Passer Stats and Grades Percentile Rankings')
     
     df = get_data()
