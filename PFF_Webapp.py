@@ -670,7 +670,7 @@ elif selected_tab == 'Tight Ends':
                          'declined_penalties', 'franchise_id', 'inline_rate', 'inline_snaps',
                          'penalties'], axis=1)
         
-        df3.columns[34]
+        
         df3.rename(columns={df3.columns[0]: 'Average Depth of Target',
                              df3.columns[1]: 'Avoided Tackles',
                              df3.columns[2]: 'Caught Percent',
