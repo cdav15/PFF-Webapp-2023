@@ -19,27 +19,27 @@ import io
 
 
 def get_data():
-    df = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Pass.csv?token=GHSAT0AAAAAACMXXWBZGM3TWWPOD3QOYI6KZNASTQQ')
+    df = pd.read_csv('https://raw.githubusercontent.com/cdav15/PFF-Webapp-2023/refs/heads/main/PFF_Pass.csv')
     df = df[df['attempts'] >= 100]
     df.rename(columns={df.columns[0]: 'Player'}, inplace=True)
     return df.set_index("Player")
 
 def receiving_data():
-    dfwr = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Receiving.csv?token=GHSAT0AAAAAACMXXWBYIV43RIX52XS632K6ZNASUXA')
+    dfwr = pd.read_csv('https://raw.githubusercontent.com/cdav15/PFF-Webapp-2023/refs/heads/main/PFF_Receiving.csv')
     dfwr = dfwr[dfwr['targets'] >= 25]
     dfwr = dfwr[dfwr['position'] == 'WR']
     dfwr.rename(columns={dfwr.columns[0]: 'Player'}, inplace=True)
     return dfwr.set_index("Player")
 
 def rushing_data():
-    dfrb = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Rushing.csv?token=GHSAT0AAAAAACMXXWBZMBFTCXP5JNUJD5FWZNASVDA')
+    dfrb = pd.read_csv('https://raw.githubusercontent.com/cdav15/PFF-Webapp-2023/refs/heads/main/PFF_Rushing.csv')
     dfrb = dfrb[dfrb['attempts'] >= 25]
     dfrb = dfrb[dfrb['position'] == 'HB']
     dfrb.rename(columns={dfrb.columns[0]: 'Player'}, inplace=True)
     return dfrb.set_index("Player")
 
 def te_data():
-    dfte = pd.read_csv('https://raw.githubusercontent.com/cdav15/Portfolio/main/PFF_Receiving.csv?token=GHSAT0AAAAAACMXXWBYIV43RIX52XS632K6ZNASUXA')
+    dfte = pd.read_csv('https://raw.githubusercontent.com/cdav15/PFF-Webapp-2023/refs/heads/main/PFF_Receiving.csv')
     dfte = dfte[dfte['targets'] >= 25]
     dfte = dfte[dfte['position'] == 'TE']
     dfte.rename(columns={dfte.columns[0]: 'Player'}, inplace=True)
